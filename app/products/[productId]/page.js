@@ -5,18 +5,21 @@ import React, { useEffect, useState } from "react";
 import products from "@/utils/products";
 import { BiEuro } from "react-icons/bi";
 import Image from "next/image";
+import useCart from "@/app/(store)/store";
 
 const ProductPage = ({ params: { productId } }) => {
+  const cartStore = useCart();
   const [state, setState] = useState();
-  let cart = [];
 
   const filtering = () => {
     const [result] = products.filter((prod) => prod._id == productId);
     setState(result);
+    console.log(result);
   };
 
   useEffect(() => {
     filtering();
+    console.log(cartStore.cart);
   }, []);
 
   return (
@@ -55,7 +58,10 @@ const ProductPage = ({ params: { productId } }) => {
             </p>
           </div>
           <div className="flex justify-around gap-1">
-            <button className="focus:outline-none  my-10 bg-primary  hover:shadow-md hover:bg-primaryHover text-white font-medium py-2 px-4 rounded-full shadow-xl">
+            <button
+              onClick={() => cartStore.addItemToCart({ newItem: state })}
+              className="focus:outline-none  my-10 bg-primary  hover:shadow-md hover:bg-primaryHover text-white font-medium py-2 px-4 rounded-full shadow-xl"
+            >
               Add to cart
             </button>{" "}
             <Link href="/products">
@@ -71,12 +77,12 @@ const ProductPage = ({ params: { productId } }) => {
           </div>
           <div className="border p-4 rounded-md">
             <h3 className="font-medium">
-              {cart.length === 0
+              {cartStore.cart.length === 0
                 ? "Your cart is empty! :("
                 : "Currently in your cart: "}
             </h3>
             <div className="py-4">
-              {cart.map((item, index) => (
+              {cartStore.cart.map((item, index) => (
                 <div key={index}>
                   {item.name} X {item.count}
                 </div>

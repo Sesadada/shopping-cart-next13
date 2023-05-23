@@ -23,17 +23,16 @@ const useCart = create((set, get) => ({
     });
   },
   removeItemFromCart: (params) => {
-    const { intemIndex } = params;
+    const { _id } = params;
     set((state) => {
-      const newCart = state.cart.filter((element, elementIndex) => {
-        return elementIndex !== intemIndex;
-      });
+      const newCart = state.cart.filter((item) => item._id !== _id);
       return {
         ...state,
         cart: newCart,
       };
     });
   },
+
   emptyCart: () => {
     set((state) => {
       const newCart = [];
