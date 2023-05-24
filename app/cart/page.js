@@ -12,22 +12,7 @@ const Cart = () => {
   const [shippingCost, setShippingCost] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    // Remove duplicate items in the cart and calculate the final price
-    const uniqueItems = [];
-    const itemMap = new Map();
-    let totalPrice = 0;
-
-    for (const item of cartStore.cart) {
-      if (!itemMap.has(item._id)) {
-        itemMap.set(item._id, true);
-        uniqueItems.push(item);
-        totalPrice += item.price * item.count;
-      }
-    }
-
-    setCartItems(uniqueItems);
-    setTotalPrice(totalPrice);
+    console.log("store", cartStore.cart);
   }, [cartStore.cart]);
 
   return (
@@ -49,21 +34,21 @@ const Cart = () => {
                   height={200}
                   alt={item.name}
                 />
-                <div className="p-2 m-2 rounded ">
+                <div className=" bg-red-200 w-full flex flex-col ">
                   <p className="font-bold">Product</p>
-                  <p className="text-sm pt-4 md:pt-2 text-left md:text-center">
-                    {item.name}
-                  </p>
-                  <p className="font-bold text-left md:text-center">
-                    {" "}
-                    X {item.count}
-                  </p>
+                  <div className="flex items-center justify-between  h-4">
+                    <p className="text-sm ">{item.name}</p>
+                    <p className="font-bold text-sm">X {item.count}</p>
+                  </div>
                 </div>
-                <div className="text-center rounded p-2 m-2">
+                <div className=" bg-yellow-300 w-full flex flex-col ">
                   <p className="font-bold">Price </p>
-                  <div className="text-1xl pt-4 md:pt-2">
-                    <p className="font-bold">
-                      {item.price * item.count} {<BiEuro />}
+                  <div className="flex items-center justify-center ">
+                    <p className="font-bold items-center text-center">
+                      {item.price * item.count}
+                    </p>
+                    <p className="font-bold flex items-center text-center">
+                      {<BiEuro />}
                     </p>
                   </div>
                 </div>
@@ -94,14 +79,14 @@ const Cart = () => {
                   Shipping of {cartItems.length} product
                   {cartItems.length > 1 && "s"}:{" "}
                 </h6>
-                <h6 className="mr-4">
+                <h6 className="mr-4 flex">
                   {shippingCost} {<BiEuro />}
                 </h6>
               </div>
 
               <div className=" rounded border p-2 flex justify-between bg-white">
                 <h6>Total: </h6>
-                <h6 className="mr-4">
+                <h6 className="mr-4 flex">
                   {totalPrice + shippingCost} {<BiEuro />}
                 </h6>
               </div>

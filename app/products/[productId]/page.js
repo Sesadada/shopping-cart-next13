@@ -14,12 +14,10 @@ const ProductPage = ({ params: { productId } }) => {
   const filtering = () => {
     const [result] = products.filter((prod) => prod._id == productId);
     setState(result);
-    console.log(result);
   };
 
   useEffect(() => {
     filtering();
-    console.log(cartStore.cart);
   }, []);
 
   return (
