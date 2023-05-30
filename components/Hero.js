@@ -26,7 +26,8 @@ const Hero = ({ handle }) => {
         }
       }
     };
-    window.addEventListener("scroll", changeColor);
+    typeof window !== "undefined" &&
+      window.addEventListener("scroll", changeColor);
 
     return window.removeEventListener("scroll", changeColor, true);
   }, []);
