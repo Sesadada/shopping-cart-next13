@@ -7,28 +7,31 @@ const Hero = ({ handle }) => {
   const [color, setColor] = useState("black");
   const [typo, setTypo] = useState("text-opacity-100");
   const [visible, setVisible] = useState(true);
+  const isBrowser = () => typeof window !== "undefined";
 
   useEffect(() => {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    const changeColor = () => {
-      if (window.scrollY >= 90) {
-        setTypo("text-opacity-0");
-        setColor("transparent");
-        if (window.scrollY >= 110) {
-          setVisible(false);
+    if (isBrowser) {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const changeColor = () => {
+        if (window.scrollY >= 90) {
+          setTypo("text-opacity-0");
+          setColor("transparent");
+          if (window.scrollY >= 110) {
+            setVisible(false);
+          }
+        } else {
+          setColor("black");
+          setTypo("text-opacity-100");
+          if (window.scrollY <= 110) {
+            setVisible(true);
+          }
         }
-      } else {
-        setColor("black");
-        setTypo("text-opacity-100");
-        if (window.scrollY <= 110) {
-          setVisible(true);
-        }
-      }
-    };
-    window.addEventListener("scroll", changeColor);
+      };
+      window.addEventListener("scroll", changeColor);
 
-    return window.removeEventListener("scroll", changeColor, true);
+      return window.removeEventListener("scroll", changeColor, true);
+    }
   }, []);
   return (
     <div className="w-full h-full">
