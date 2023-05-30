@@ -1,113 +1,128 @@
 "use client";
 import { useEffect, useState } from "react";
 import { BiEuro } from "react-icons/bi";
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
 import useCart from "../(store)/store";
 
 const Cart = () => {
   const cartStore = useCart();
-  const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState("");
-  const [shippingCost, setShippingCost] = useState("");
+
+  const total = (tot) => {
+    let temp = 0;
+    tot.forEach((i) => {
+      if (i.count === 1) {
+        temp += i.price;
+      } else {
+        temp += i.price * i.count;
+      }
+    });
+    return temp;
+  };
+
+  const shipping = (n) => {
+    return n > 3 ? 15 : n * 10;
+  };
 
   useEffect(() => {
     console.log("store", cartStore.cart);
+    console.log("count", cartStore.count);
+    console.log(total(cartStore.cart));
   }, [cartStore.cart]);
 
   return (
-    <div className="flex justify-center items-center w-screen h-screen mt-32">
-      <div className="p-10 bg-primary rounded sm:p-5 md:w-3/4">
-        <h3 className="font-medium pb-2 text-2xl text-white text-center sm:text-3xl">
-          {cartItems.length === 0
+    <div className="flex justify-center items-center w-screen h-screen bg-white">
+      <div className=" sm:p-5 md:w-2/4  ">
+        <h3 className="font-medium text-lg mb-4 text-center sm:text-3xl">
+          {cartStore.cart.length === 0
             ? "Your cart is empty!"
             : "Currently in your cart "}
         </h3>
-        <div className="py-2 text-center">
-          {cartItems.map((item, index) => (
-            <div key={index} className="grid">
-              <div className="grid grid-cols-3 bg-white rounded-t-lg">
+        <div>
+          {cartStore.cart.map((item, index) => (
+            <div key={index} className="flex w-full">
+              <div className="flex bg-white rounded-md my-1 border w-full">
                 <Image
-                  className="bg-primary w-40 hover:opacity-70 cursor-pointer"
+                  className="hover:opacity-70 cursor-pointer rounded-md p-1"
                   src={item.image}
-                  width={200}
-                  height={200}
+                  width={100}
+                  height={100}
                   alt={item.name}
                 />
-                <div className=" bg-red-200 w-full flex flex-col ">
-                  <p className="font-bold">Product</p>
-                  <div className="flex items-center justify-between  h-4">
-                    <p className="text-sm ">{item.name}</p>
-                    <p className="font-bold text-sm">X {item.count}</p>
+                <div className="flex w-full p-2">
+                  <div className=" w-full flex   items-center justify-around">
+                    <p className="text-sm md:text-md lg:text-lg font-bold">
+                      {item.name}
+                    </p>
+                    <p className="text-sm md:text-md lg:text-lg font-bold flex w-10">
+                      ({item.count})
+                    </p>
                   </div>
-                </div>
-                <div className=" bg-yellow-300 w-full flex flex-col ">
-                  <p className="font-bold">Price </p>
-                  <div className="flex items-center justify-center ">
-                    <p className="font-bold items-center text-center">
+                  <div className="flex items-center justify-center px-2 ">
+                    <AiOutlineMinusCircle
+                      size={20}
+                      className="text-primary mx-2"
+                      onClick={() =>
+                        cartStore.removeItemFromCart({ _id: item._id })
+                      }
+                    />
+                    <AiOutlinePlusCircle
+                      size={20}
+                      className="text-primary"
+                      onClick={() => cartStore.addItemToCart({ newItem: item })}
+                    />
+                  </div>
+                  <div className=" flex  items-center justify-center px-4">
+                    <p className="font-bold items-center text-center text-sm md:text-md">
                       {item.price * item.count}
                     </p>
-                    <p className="font-bold flex items-center text-center">
+                    <p className="font-bold items-center text-center text-sm md:text-md">
                       {<BiEuro />}
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="flex">
-                <button
-                  onClick={() =>
-                    cartStore.removeItemFromCart({ _id: item._id })
-                  }
-                  className="focus:outline-none w-2/4 text-sm bg-black hover:bg-red-600 text-white mb-3 rounded-bl-lg"
-                >
-                  Remove Item
-                </button>
-                <button
-                  onClick={() => cartStore.addItemToCart({ newItem: item })}
-                  className="focus:outline-none w-2/4 border text-sm bg-pink-400 hover:bg-pink-600 text-white mb-3 rounded-br-lg"
-                >
-                  Add Another One
-                </button>
-              </div>
             </div>
           ))}
 
-          {cartItems.length > 0 && (
+          {cartStore.cart.length > 0 && (
             <div className="mt-2">
-              <div className=" rounded border mb-2 p-2 flex justify-between bg-white">
+              <div className=" rounded border mb-2 p-2 flex justify-between bg-white text-sm md:text-md">
                 <h6>
-                  Shipping of {cartItems.length} product
-                  {cartItems.length > 1 && "s"}:{" "}
+                  Shipping of {cartStore.count} product
+                  {cartStore.count > 1 && "s"}:{" "}
                 </h6>
                 <h6 className="mr-4 flex">
-                  {shippingCost} {<BiEuro />}
+                  {shipping(cartStore.count)} {<BiEuro />}
                 </h6>
               </div>
 
-              <div className=" rounded border p-2 flex justify-between bg-white">
+              <div className=" rounded border p-2 flex justify-between bg-white text-sm md:text-md">
                 <h6>Total: </h6>
                 <h6 className="mr-4 flex">
-                  {totalPrice + shippingCost} {<BiEuro />}
+                  {total(cartStore.cart) + shipping(cartStore.count)}{" "}
+                  {<BiEuro />}
                 </h6>
               </div>
             </div>
           )}
 
-          {cartItems.length > 0 && (
+          {cartStore.cart.length > 0 && (
             <div className="grid grid-cols-3 gap-1 mt-6">
-              <button className="focus:outline-none mt-5 bg-black hover:shadow-md hover:bg-white hover:text-black text-white font-bold py-1 px-4 rounded-full shadow-xl mt-4">
+              <button className="border-2 border-primary bg-white hover:shadow-md  text-primary  font-bold py-1 px-4 rounded-full shadow-xl mt-4">
                 PayPal
               </button>
-              <button className="focus:outline-none mt-5 bg-black hover:shadow-md hover:bg-white hover:text-black text-white text-white font-bold py-1 px-4 rounded-full shadow-xl mt-4">
+              <button className=" border-2 border-primary bg-white hover:shadow-md  text-primary   font-bold py-1 px-4 rounded-full shadow-xl mt-4">
                 Credit Card
               </button>
-              <button className="focus:outline-none mt-5 bg-black hover:shadow-md hover:bg-white hover:text-black text-white text-white font-bold py-1 px-4 rounded-full shadow-xl mt-4">
+              <button className="border-2 border-primary bg-white hover:shadow-md   text-primary  font-bold py-1 px-4 rounded-full shadow-xl mt-4">
                 Apple Pay
               </button>
             </div>
           )}
           <Link href="/products">
-            <button className="focus:outline-none my-10 bg-white hover:shadow-md hover:text-white hover:bg-black text-black-600 font-bold py-2 px-4 rounded-full shadow-xl">
+            <button className="focus:outline-none my-4 bg-primary py-2 hover:shadow-md  hover:bg-black text-white font-bold  px-4 rounded-full shadow-xl w-full">
               Back to Shop
             </button>
           </Link>

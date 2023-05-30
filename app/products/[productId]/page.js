@@ -47,11 +47,11 @@ const ProductPage = ({ params: { productId } }) => {
             <h6 className="  font-black text-4xl flex items-center">
               {state && state.price} <BiEuro />{" "}
             </h6>
-            <p className="text-sm font-medium flex items-center ">
+            <p className="text-sm font-medium flex items-center">
               + 10 <BiEuro /> flat shipping fee
             </p>
             <p className="text-xs font-normal pt-4">
-              If you buy up to 4 products, the shipping fee will be only 10
+              If you buy more than 3 products, the shipping fee will be only 15
               euros
             </p>
           </div>
@@ -63,12 +63,12 @@ const ProductPage = ({ params: { productId } }) => {
               Add to cart
             </button>{" "}
             <Link href="/products">
-              <button className="focus:outline-none my-10 bg-secondary hover:shadow-md hover:bg-secondaryHover text-white font-medium py-2 px-4 rounded-full shadow-xl">
+              <button className="text-primary my-10 border-2 border-primary hover:shadow-md hover:bg-secondaryHover hover:text-white  font-medium py-2 px-4 rounded-full shadow-xl">
                 Continue Shopping
               </button>
             </Link>
             <Link href="/cart">
-              <button className="focus:outline-none my-10 bg-grey-200 hover:shadow-md hover:bg-primary text-black font-medium py-2 px-4 shadow-xl  rounded-full border">
+              <button className="focus:outline-none my-10 bg-grey-200 hover:shadow-md hover:bg-primary hover:text-white text-black font-medium py-2 px-4 shadow-xl  rounded-full border">
                 Check Out
               </button>
             </Link>
