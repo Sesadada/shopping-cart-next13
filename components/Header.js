@@ -20,8 +20,7 @@ const Header = () => {
         setChangingPoint(false);
       }
     };
-    typeof window !== "undefined" &&
-      window.addEventListener("scroll", changeColor);
+    window.addEventListener("scroll", changeColor);
 
     return window.removeEventListener("scroll", changeColor, true);
   }, []);

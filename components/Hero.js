@@ -2,8 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CldImage } from "next-cloudinary";
 import { AiOutlineArrowDown } from "react-icons/ai";
-const w = window.innerWidth;
-const h = window.innerHeight;
 
 const Hero = ({ handle }) => {
   const [color, setColor] = useState("black");
@@ -11,6 +9,8 @@ const Hero = ({ handle }) => {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
     const changeColor = () => {
       if (window.scrollY >= 90) {
         setTypo("text-opacity-0");
@@ -26,8 +26,7 @@ const Hero = ({ handle }) => {
         }
       }
     };
-    typeof window !== "undefined" &&
-      window.addEventListener("scroll", changeColor);
+    window.addEventListener("scroll", changeColor);
 
     return window.removeEventListener("scroll", changeColor, true);
   }, []);
