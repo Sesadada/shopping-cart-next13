@@ -8,11 +8,11 @@ const Hero = ({ handle }) => {
   const [typo, setTypo] = useState("text-opacity-100");
   const [visible, setVisible] = useState(true);
   const isBrowser = () => typeof window !== "undefined";
+  const w = typeof window !== "undefined" && window.innerWidth;
+  const h = typeof window !== "undefined" && window.innerHeight;
 
   useEffect(() => {
     if (isBrowser) {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
       const changeColor = () => {
         if (window.scrollY >= 90) {
           setTypo("text-opacity-0");
