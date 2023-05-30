@@ -7,25 +7,22 @@ import { BsCartFill } from "react-icons/bs";
 const Header = () => {
   const [nav, setNav] = useState(false);
   const [changingPoint, setChangingPoint] = useState(false);
-  const isBrowser = () => typeof window !== "undefined";
 
   const handleNav = () => {
     setNav(!nav);
   };
 
   useEffect(() => {
-    if (isBrowser) {
-      const changeColor = () => {
-        if (window.scrollY >= 90) {
-          setChangingPoint(true);
-        } else {
-          setChangingPoint(false);
-        }
-      };
-      window.addEventListener("scroll", changeColor);
+    const changeColor = () => {
+      if (window.scrollY >= 90) {
+        setChangingPoint(true);
+      } else {
+        setChangingPoint(false);
+      }
+    };
+    window.addEventListener("scroll", changeColor);
 
-      return window.removeEventListener("scroll", changeColor, true);
-    }
+    return window.removeEventListener("scroll", changeColor, true);
   }, []);
   return (
     <header
