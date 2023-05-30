@@ -2,6 +2,7 @@ import React from "react";
 import products from "@/utils/products";
 import Link from "next/link";
 import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 
 const Grid = ({ refe }) => {
   return (
@@ -15,10 +16,11 @@ const Grid = ({ refe }) => {
             <Image
               className="bg-primary w-full hover:opacity-70 cursor-pointer"
               src={prod.image}
+              loading="lazy"
               width={500}
               height={500}
               alt="Picture of the author"
-            />{" "}
+            />
           </Link>
         );
       })}

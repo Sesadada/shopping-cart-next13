@@ -4,21 +4,24 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import products from "@/utils/products";
 import { BiEuro } from "react-icons/bi";
-import Image from "next/image";
+
 import useCart from "@/app/(store)/store";
+import { CldImage } from "next-cloudinary";
+import Image from "next/image";
 
 const ProductPage = ({ params: { productId } }) => {
   const cartStore = useCart();
   const [state, setState] = useState();
 
-  const filtering = () => {
-    const [result] = products.filter((prod) => prod._id == productId);
-    setState(result);
-  };
-
   useEffect(() => {
+    const filtering = () => {
+      const [result] = products.filter((prod) => prod._id == productId);
+      setState(result);
+    };
+
     filtering();
-  }, []);
+    console.log(state);
+  }, [productId]);
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-full pt-20 ">
