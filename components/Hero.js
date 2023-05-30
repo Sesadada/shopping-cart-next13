@@ -34,7 +34,7 @@ const Hero = ({ handle }) => {
     }
   }, []);
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full ">
       {visible && (
         <div
           className={`md:py-8 py-2 bg-${color} w-full fixed top-80 left-1/2 transform -translate-x-1/2 -translate-y-1/2  justify-center flex flex-col items-center ease-in-out duration-300`}
@@ -59,10 +59,12 @@ const Hero = ({ handle }) => {
       )}
 
       <CldImage
-        width={w}
-        height={h}
+        width="0"
+        height="0"
+        sizes="100vw"
+        className="w-full h-auto"
+        loading="lazy"
         src="cartImages/IMG_1"
-        sizes="200vw"
         alt="Double color tea towel"
       />
     </div>
